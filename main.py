@@ -1,27 +1,31 @@
 import pygame
+from pygame import Vector2
 from util.constants import *
+from util.mouse import render_crosshair
+import object as obj
 
 pygame.init()
 
 screen = pygame.display.set_mode(SCREEN_SIZE, pygame.SCALED + pygame.RESIZABLE)
 display = pygame.Surface(DISPLAY_SIZE)
 clock = pygame.time.Clock()
+
 pygame.mouse.set_visible(False)
 pygame.display.set_caption("Fortnite 2D")
 
-brick = pygame.Surface((25, 25))
-brick_rect = brick.get_rect()
-brick_rect.center = (150, 100)
+test_object = obj.Object(pygame.Surface((25, 25)), Vector2(150, 100))
+
 
 while True:
     display.fill((255, 255, 255))
+    render_crosshair(display, None)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
 
-    brick_rect.centery += 5
-    display.blit(brick, brick_rect)
+    obj.apply_gravity(test_object)
+    obj.render_object(display, test_object)
 
     screen.blit(pygame.transform.scale(display, screen.get_size()), (0, 0))
     pygame.display.update()
