@@ -1,16 +1,28 @@
-# This is a sample Python script.
+import pygame
+from util.constants import *
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+pygame.init()
 
+screen = pygame.display.set_mode(SCREEN_SIZE, pygame.SCALED + pygame.RESIZABLE)
+display = pygame.Surface(DISPLAY_SIZE)
+clock = pygame.time.Clock()
+pygame.mouse.set_visible(False)
+pygame.display.set_caption("Fortnite 2D")
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+brick = pygame.Surface((25, 25))
+brick_rect = brick.get_rect()
+brick_rect.center = (150, 100)
 
+while True:
+    display.fill((255, 255, 255))
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    brick_rect.centery += 5
+    display.blit(brick, brick_rect)
+
+    screen.blit(pygame.transform.scale(display, screen.get_size()), (0, 0))
+    pygame.display.update()
+    clock.tick(FPS)
