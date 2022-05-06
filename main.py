@@ -15,7 +15,6 @@ pygame.display.set_caption("Fortnite 2D")
 
 test_object = obj.Object(pygame.Surface((25, 25)), Vector2(150, 100))
 
-
 while True:
     display.fill((255, 255, 255))
     render_crosshair(display, None)
@@ -24,7 +23,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
 
-    obj.apply_gravity(test_object)
+    obj.update_object(test_object)
     obj.render_object(display, test_object)
 
     screen.blit(pygame.transform.scale(display, screen.get_size()), (0, 0))
