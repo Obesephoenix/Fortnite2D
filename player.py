@@ -1,19 +1,13 @@
 import pygame as pg
 from pygame.math import Vector2
 from typing import Union
+from entity import BasicEntity
 
 
-class Player(pg.sprite.Sprite):
-    pos: Vector2
-    velocity: Vector2
+class Player(BasicEntity):
 
-    def __init__(self, image: pg.Surface, pos: Union[tuple[int, int], Vector2], *groups):
-        super().__init__(*groups)
-        self.image = image
-        self.rect = self.image.get_rect()
-        self.pos = pos if type(pos) == Vector2 else Vector2(pos)
-        self.rect.center = (self.pos.x, self.pos.y)
+    def __init__(self, image: pg.Surface, pos: Union[Vector2, tuple[int, int]], *groups):
+        super().__init__(image, pos, *groups)
 
     def update(self):
-        self.pos += self.velocity
-        self.rect.center = (self.pos.x, self.pos.y)
+        super().update()
