@@ -1,11 +1,10 @@
 import pygame as pg
 from pygame.math import Vector2
-from typing import Union
+from typing import Union, get_origin, get_args
 from entity import BasicEntity
 from bullet import Bullet
-from copy import copy
 
-gravity_strength = 4
+gravity_strength = 3
 
 
 class Player(BasicEntity):
@@ -18,12 +17,16 @@ class Player(BasicEntity):
 
     def jump(self):
         if self.jumping == 0:
-            self.jumping = 9.5
+            self.jumping = 6
             self.grounded = False
 
     def shoot(self, pos: Union[Vector2, tuple[int, int]], group: pg.sprite.Group):
-        direction = pos if type(pos) == Vector2 else Vector2(pos)
-        bullet = Bullet(pg.Surface((10, 10)), copy(self.pos), direction)
+        direction: Vector2
+        if isinstance(pos, tuple):
+            direction = Vector2(pos).normalize()
+        else:
+            direction = pos.normalize()
+        bullet = Bullet(pg.Surface((10, 10)), Vector2(self.pos), direction*3)
         group.add(bullet)
 
     def collide(self, other: BasicEntity):

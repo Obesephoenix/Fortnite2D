@@ -1,8 +1,9 @@
 import pygame as pg
 
 import entity
-import player
 import mouse
+
+from player import Player
 
 pg.init()
 
@@ -13,10 +14,10 @@ clock = pg.time.Clock()
 pg.display.set_caption("Fortnite 2D")
 pg.mouse.set_visible(False)
 
-player_image = pg.image.load("assets/image/character.png")
+player_image = pg.Surface((100, 100))
 
 world = pg.sprite.Group()
-player = player.Player(pg.transform.scale(player_image, (17 * 3, 30 * 3)), (100, 100))
+player = Player(pg.transform.scale(player_image, (17 * 3, 30 * 3)), (100, 100))
 platform_one = entity.BasicEntity(pg.Surface((800, 5)), (450, 300))
 platform_two = entity.BasicEntity(pg.Surface((800, 5)), (450, 500))
 world.add(platform_one, platform_two)
@@ -34,6 +35,9 @@ def poll_events():
                 print(pg.mouse.get_pos())
             if event.key == pg.K_DOWN or event.key == pg.K_s:
                 player.grounded = False
+            if event.key == pg.K_r:
+                player.vel = pg.math.Vector2(0, 0)
+                player.pos = pg.math.Vector2(100, 100)
         elif event.type == pg.MOUSEBUTTONDOWN:
             player.shoot(pg.mouse.get_pos(), world)
 
