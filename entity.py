@@ -9,7 +9,10 @@ class BasicEntity(pg.sprite.Sprite):
         super().__init__()
         self.test = 0
         self.image = image
-        self.pos = pos if type(pos) == Vector2 else Vector2(pos)
+        if isinstance(pos, tuple):
+            self.pos = Vector2(pos)
+        elif isinstance(pos, Vector2):
+            self.pos = pos
         self.vel = Vector2(0, 0)
         self.rect = self.image.get_rect()
         self.rect.center = (self.pos.x, self.pos.y)

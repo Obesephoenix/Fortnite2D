@@ -4,6 +4,7 @@ import entity
 import mouse
 
 from player import Player
+from spritesheet import SpriteSheet
 
 pg.init()
 
@@ -14,10 +15,13 @@ clock = pg.time.Clock()
 pg.display.set_caption("Fortnite 2D")
 pg.mouse.set_visible(False)
 
-player_image = pg.Surface((100, 100))
+player_image = pg.image.load("assets/image/character.png")
+
+test_sheet_srf = pg.transform.scale(pg.image.load("assets/image/character_ambient.png"), (51 * 3, 30 * 3))
+test_sheet = SpriteSheet(test_sheet_srf, (17 * 3, 30 * 3))
 
 world = pg.sprite.Group()
-player = Player(pg.transform.scale(player_image, (17 * 3, 30 * 3)), (100, 100))
+player = Player(test_sheet, (100, 100))
 platform_one = entity.BasicEntity(pg.Surface((800, 5)), (450, 300))
 platform_two = entity.BasicEntity(pg.Surface((800, 5)), (450, 500))
 world.add(platform_one, platform_two)
@@ -45,10 +49,10 @@ def poll_events():
         player.jump()
 
     if keys[pg.K_RIGHT] or keys[pg.K_d]:
-        player.vel.x += 2
+        player.move_right()
 
     if keys[pg.K_LEFT] or keys[pg.K_a]:
-        player.vel.x -= 2
+        player.move_left()
 
 
 while True:
