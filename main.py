@@ -5,6 +5,7 @@ import mouse
 
 from player import Player
 from spritesheet import SpriteSheet
+from entity import BasicEntity
 
 pg.init()
 
@@ -22,9 +23,13 @@ test_sheet = SpriteSheet(test_sheet_srf, (17 * 3, 30 * 3))
 
 world = pg.sprite.Group()
 player = Player(test_sheet, (100, 100))
-platform_one = entity.BasicEntity(pg.Surface((800, 5)), (450, 300))
-platform_two = entity.BasicEntity(pg.Surface((800, 5)), (450, 500))
-world.add(platform_one, platform_two)
+
+
+for i in range(10):
+    t = i + 1
+    platform = BasicEntity(pg.Surface((800 / t, 5)), (900 - round(450 / t), 600 - t * 50))
+    world.add(platform)
+
 
 
 def poll_events():
@@ -42,6 +47,8 @@ def poll_events():
             if event.key == pg.K_r:
                 player.vel = pg.math.Vector2(0, 0)
                 player.pos = pg.math.Vector2(100, 100)
+            if event.key == pg.K_q:
+                player.shoot(pg.mouse.get_pos(), world)
         elif event.type == pg.MOUSEBUTTONDOWN:
             player.shoot(pg.mouse.get_pos(), world)
 

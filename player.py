@@ -13,6 +13,7 @@ class Player(BasicEntity):
     def __init__(self, image: SpriteSheet, pos: Union[Vector2, tuple[int, int]]):
         super().__init__(image.get_frame(), pos)
         self.animation = image
+        self.time = 0
         self.delay = 0
         self.jumping = 0
         self.grounded = False
@@ -42,7 +43,7 @@ class Player(BasicEntity):
             direction = Vector2(pos) - self.pos
         else:
             direction = pos - self.pos
-        bullet = Bullet(Vector2(self.pos), direction.normalize() * 10)
+        bullet = Bullet(Vector2(self.pos), direction.normalize() * 3)
         group.add(bullet)
 
     def collide(self, other: BasicEntity):
@@ -60,7 +61,7 @@ class Player(BasicEntity):
             self.image = self.animation.get_frame()
             self.mask = pg.mask.from_surface(self.image)
             if self.animation.get_frame_number() == self.animation.total_frames - 2:
-                self.delay = -120
+                self.delay = -60
             else:
                 self.delay = 0
 
