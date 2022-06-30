@@ -2,6 +2,8 @@ import pygame as pg
 from typing import Union
 from pygame.math import Vector2
 
+import map
+
 
 class BasicEntity(pg.sprite.Sprite):
 
@@ -25,3 +27,15 @@ class BasicEntity(pg.sprite.Sprite):
         self.pos.x += self.vel.x
         self.pos.y += self.vel.y
         self.rect.center = (self.pos.x, self.pos.y)
+
+
+class AlignedObject(BasicEntity):
+
+    def __init__(self, image: pg.Surface, pos: Union[Vector2, tuple[int, int]], grid: list[tuple[int, int]]):
+        self.grid = grid
+        self.origin = pos
+        super().__init__(image, pos)
+        self.rect.topleft = map.get_closest_spawn_line(self.origin, self.grid)
+
+    def update(self, display: pg.Surface):
+        pass
